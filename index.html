@@ -909,18 +909,34 @@
             }
         }
 
+        // Kontrol Tombol Menu Khusus (Pesan Cinta & Surat Terbuka) dengan Musik Berkelanjutan
         function toggleSpecialMusicSection(btn) {
             const content = btn.nextElementSibling;
+            const isOpen = (content.style.display === "block");
             const mainMusic = document.getElementById('mainMusic');
             const specialMusic = document.getElementById('specialMusic');
 
-            if (content.style.display === "block") {
+            // 1. Tutup semua menu khusus dan matikan musik utamanya
+            const allBtns = document.getElementsByClassName("accordion-btn");
+            for (let i = 0; i < allBtns.length; i++) {
+                if (allBtns[i] !== btn && (allBtns[i].innerText.includes("Pesan Cinta") || allBtns[i].innerText.includes("Surat Terbuka"))) {
+                    allBtns[i].classList.remove("active");
+                    const otherContent = allBtns[i].nextElementSibling;
+                    if (otherContent) otherContent.style.display = "none";
+                    const span = allBtns[i].querySelector("span");
+                    if (span) span.innerText = "▼";
+                }
+            }
+
+            if (isOpen) {
+                // Jika menu yang diklik sedang terbuka lalu ditutup
                 fadeOutMusic(specialMusic, () => {
                     content.style.display = "none";
                     btn.classList.remove("active");
                     btn.querySelector("span").innerText = "▼";
                 });
             } else {
+                // Jika membuka menu (pindah antar menu khusus atau buka baru)
                 mainMusic.pause();
                 mainMusic.currentTime = 0;
                 document.getElementById('musicBtn').innerText = "▶️ Musik";
@@ -928,18 +944,10 @@
                 content.style.display = "block";
                 btn.classList.add("active");
                 btn.querySelector("span").innerText = "▲";
-                
-                specialMusic.volume = 0;
+
+                // Putar lagu tanpa mereset ke detik 0 (jika sudah berjalan/dipause sebelumnya)
                 specialMusic.play().then(() => {
-                    let vol = 0;
-                    let fade = setInterval(() => {
-                        if (vol < 1) {
-                            vol += 0.1;
-                            specialMusic.volume = Math.min(vol, 1);
-                        } else {
-                            clearInterval(fade);
-                        }
-                    }, 150);
+                    specialMusic.volume = 1; // Langsung atur suara penuh atau sesuaikan dengan fade halus
                 }).catch(e => {});
             }
         }
