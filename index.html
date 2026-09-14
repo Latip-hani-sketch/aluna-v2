@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah & Tumbuh Kembang Aluna Melodi Latifah</title>
+    <style>
+        :root {
+            --primary-color: #ff9ebb;
+            --secondary-color: #fff5f7;
+            --text-color: #f1f1f1;
+            --bg-color: #2b222c;
+            --card-bg: #382c39;
+            --border-color: #524054;
+        }
+
+        /* Mode Terang (Light Theme) */
+        body.light-theme {
+            --primary-color: #b83b5e;
+            --secondary-color: #ffe3ec;
+            --text-color: #333333;
+            --bg-color: #fce4ec;
+            --card-bg: #ffffff;
+            --border-color: #ffb6c1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: #4a3b4c;
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        body.light-theme header {
+            background-color: #b83b5e;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            color: #ffb6c1;
+        }
+
+        body.light-theme header h1 {
+            color: #ffe3ec;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+            color: #ddd;
+        }
+
+        .top-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .top-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #b83b5e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .top-btn:hover {
+            background: #fff;
+        }
+
+        .badge-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .age-counter, .countdown-counter {
+            background: rgba(255, 255, 255, 0.9);
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #b83b5e;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .accordion-btn {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 1rem;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .accordion-btn:hover {
+            opacity: 0.85;
+        }
+
+        .accordion-content {
+            padding: 0 5px;
+            display: none;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .quote-box {
+            background: var(--bg-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.2rem;
+            border-radius: 4px;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .birth-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .info-box {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .info-box span {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .info-box strong {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .family-box {
+            background: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-top: 3px solid var(--primary-color);
+        }
+
+        .family-box h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+        }
+
+        .family-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .family-box li {
+            margin-bottom: 6px;
+        }
+
+        .name-meaning, .helper-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .name-item strong, .helper-item strong {
+            color: var(--primary-color);
+        }
+
+        table.milestone-table, table.immunization-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        table.milestone-table th, table.milestone-table td, 
+        table.immunization-table th, table.immunization-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table.milestone-table th, table.immunization-table th {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .log-form {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .log-form input, .log-form textarea, .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 6px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .log-form button, .log-form input[type="submit"] {
+            background-color: #b83b5e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .log-form button:hover {
+            background-color: #a0314f;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d !important;
+        }
+
+        .btn-print {
+            background-color: #28a745;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-print:hover {
+            background-color: #218838;
+        }
+
+        .log-entry {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-color);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .log-date {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Styling untuk Modal Zoom & Tombol Geser (Slider) */
+        #photoModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .modal-content-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(255,255,255,0.3);
+            object-fit: contain;
+        }
+
+        #modalCaption {
+            color: #fff;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        .close-modal:hover {
+            color: #ffb6c1;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+            user-select: none;
+            z-index: 10000;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #b83b5e;
+        }
+
+        .prev-btn { left: -60px; }
+        .next-btn { right: -60px; }
+
+        @media (max-width: 768px) {
+            .prev-btn { left: 10px; }
+            .next-btn { right: 10px; }
+            .nav-btn { padding: 10px 15px; font-size: 18px; }
+        }
+
+        @media print {
+            .log-form, .btn-group, .accordion-btn, .top-controls, .search-box, .btn-print {
+                display: none !important;
+            }
+            .accordion-content {
+                display: block !important;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-controls">
+            <button class="top-btn" id="musicBtn" onclick="toggleMainMusic()">▶️ Musik</button>
+            <button class="top-btn" onclick="toggleTheme()">🌓 Tema</button>
+        </div>
+
+        <audio id="bgMusic" loop preload="auto">
+            <source src="Saat Kau Telah Mengerti.mp3" type="audio/mpeg">
+        </audio>
+
+        <h1>Selamat Datang di Dunia, Aluna Melodi Latifah! 🌸</h1>
+        <p>Jejak langkah, cinta, dan kisah harian bidadari kecil Ayah & Ibu</p>
+        <div class="badge-container">
+            <div class="age-counter" id="ageCounter">Menghitung usia...</div>
+            <div class="countdown-counter" id="birthdayCountdown">Menghitung menuju ulang tahun...</div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. Pesan Cinta untuk Aluna -->
+        <button class="accordion-btn" onclick="toggleMusicSection(this)">💌 Pesan Cinta untuk Aluna <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <div class="quote-box" style="margin-bottom:0;">
+                    "Untuk putri kecilku tersayang, Aluna Melodi Latifah, kehadiranmu di dunia ini adalah mukjizat terindah yang Allah titipkan setelah Ayah dan Ibu menanti, berdoa, and berjuang selama hampir lima tahun lamanya. Setiap detik penantian itu terbayar lunas saat pertama kali melihat senyum dan mendengar tangisanmu. Kamu adalah bukti nyata bahwa doa yang sabar tidak pernah sia-sia. Terima kasih telah melengkapi keluarga kecil kita."
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Surat Terbuka untuk Masa Depan -->
+        <button class="accordion-btn" onclick="toggleMusicSection(this)">✉️ Surat Terbuka Ayah & Ibu untuk Masa Depan Aluna <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <p style="font-style: italic; opacity: 0.8; margin-top:0;">(Surat ini ditulis khusus untuk dibaca Aluna saat sudah dewasa kelak)</p>
+                <p style="margin-bottom:0;">Anakku tersayang, jika kelak kamu membaca halaman ini di masa depan, ketahuilah betapa besarnya perjuangan dan rasa syukur kami menyambut kehadiranmu. Rumah ini penuh dengan tangis bahagiamu. Apapun cita-citamu dan seberapa jauh kamu melangkah nanti, ingatlah bahwa Ayah dan Ibu selalu menjadi rumah tempatmu pulang dan berlindung.</p>
+            </div>
+        </div>
+
+        <!-- 3. Data Kelahiran & Keluarga -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">👶 Data Kelahiran & Keluarga <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <div class="birth-info" style="margin-bottom: 1.5rem;">
+                    <div class="info-box">
+                        <span>Nama Putri</span>
+                        <strong>Aluna Melodi Latifah</strong>
+                    </div>
+                    <div class="info-box">
+                        <span>Tanggal Lahir</span>
+                        <strong>08 September 2026</strong>
+                    </div>
+                    <div class="info-box">
+                        <span>Jam Lahir</span>
+                        <strong>10:00 WIB</strong>
+                    </div>
+                    <div class="info-box">
+                        <span>Berat / Panjang</span>
+                        <strong>3.2 kg / 49 cm</strong>
+                    </div>
+                </div>
+
+                <div class="birth-info" style="margin-bottom: 1.5rem;">
+                    <div class="info-box">
+                        <span>Nama Ayah</span>
+                        <strong>Abdul Latip</strong>
+                    </div>
+                    <div class="info-box">
+                        <span>Nama Ibu</span>
+                        <strong>Hani Fauziah</strong>
+                    </div>
+                    <div class="info-box" style="grid-column: 1 / -1;">
+                        <span>Menikah Sejak</span>
+                        <strong>20 Oktober 2021</strong>
+                    </div>
+                </div>
+                
+                <div class="helper-list">
+                    <div class="helper-item">
+                        <strong>Dokter / Medis:</strong> dr. Yuliati, Sp.OG
+                    </div>
+                    <div class="helper-item">
+                        <strong>Rumah Sakit:</strong> RSU HASANAH GRAHA AFIAH (HGA)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Silsilah & Keluarga Besar -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">🌳 Silsilah & Keluarga Besar <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <p style="font-style: italic; opacity: 0.8; margin-top:0; font-size:0.9rem; text-align:center;">Keluarga besar tercinta yang mendoakan dan menyayangi Aluna:</p>
+                <div class="family-grid">
+                    <!-- Keluarga Pihak Hani -->
+                    <div class="family-box">
+                        <h4>🌸 Keluarga Besar Ibu (Hani)</h4>
+                        <ul>
+                            <li><strong>Mamah & Bapak:</strong> Salamah & Gani</li>
+                            <li><strong>Onty & Om:</strong> July & Ilham</li>
+                        </ul>
+                    </div>
+                    <!-- Keluarga Pihak Latip -->
+                    <div class="family-box">
+                        <h4>🌿 Keluarga Besar Ayah (Latip)</h4>
+                        <ul>
+                            <li><strong>Kakek & Nenek:</strong> Bapak Bastari (Alm) & Yani Maryani (Almh)</li>
+                            <li><strong>Mamah & Ayah:</strong> Idha & Udin (Anak: Onty Dina & Om Fadlam)</li>
+                            <li><strong>Ayah Q-moy & Ibu Echa:</strong> Abang Ikal & Abang Aday</li>
+                            <li><strong>Ncing Lastry & Om Ozi:</strong> Kaka Ily & Abang Enzy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Arti Indah di Balik Namamu -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">✨ Arti Indah di Balik Namamu <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <div class="name-meaning">
+                    <div class="name-item">
+                        <strong>Aluna:</strong> Bermakna buah hati yang membawa keindahan, keceriaan, dan suara hati yang menyejukkan.
+                    </div>
+                    <div class="name-item">
+                        <strong>Melodi:</strong> Simbol alunan nada yang indah, menggambarkan kebahagiaan dan keharmonisan yang senantiasa hidup di rumah kita.
+                    </div>
+                    <div class="name-item">
+                        <strong>Latifah:</strong> Berarti lembut, baik hati, dan penuh kasih sayang dalam setiap langkah hidupnya.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Galeri Momen Pertama -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">📸 Galeri Momen Pertama <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <p style="font-style: italic; opacity: 0.8; margin-top:0; font-size:0.9rem;">Kumpulan momen berharga bidadari kecil kami (Klik foto untuk memperbesar & geser):</p>
+                <div id="autoGallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
+                    <p style="opacity: 0.7; grid-column: 1 / -1; text-align: center;">Memuat foto...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ZOOM & SLIDESHOW FOTO -->
+        <div id="photoModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); align-items: center; justify-content: center; flex-direction: column;">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-content-container">
+                <button class="nav-btn prev-btn" onclick="changePhoto(-1)">&#10094;</button>
+                <img id="modalImage" src="" alt="Zoom Foto">
+                <button class="nav-btn next-btn" onclick="changePhoto(1)">&#10095;</button>
+            </div>
+            
+            <div id="modalCaption"></div>
+        </div>
+
+        <!-- 7. Buku Tamu & Ucapan Keluarga -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">💬 Buku Tamu & Ucapan Keluarga <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <form id="guestbookForm" class="log-form" onsubmit="sendWishes(event)">
+                    <h3 style="margin-top:0; color:var(--primary-color); font-size:1rem;">✍️ Tinggalkan Ucapan & Doa untuk Aluna</h3>
+                    <input type="text" id="guestName" name="nama" placeholder="Nama Anda / Hubungan (Contoh: Kakek / Tante Rina)" autocomplete="off" required>
+                    <textarea id="guestMessage" name="ucapan" rows="3" placeholder="Tulis doa atau ucapan terbaik untuk Aluna..." autocomplete="off" required></textarea>
+                    <button type="submit" id="submitBtn">Kirim Ucapan</button>
+                </form>
+
+                <div id="wishesContainer" style="margin-top: 1.5rem;">
+                    <p style="text-align: center; opacity: 0.7;">Memuat ucapan...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Catatan Milestone -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">🎯 Catatan Milestone (Tumbuh Kembang) <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <table class="milestone-table">
+                    <thead>
+                        <tr>
+                            <th>Pencapaian (Milestone)</th>
+                            <th>Tanggal / Usia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pertama Kali Lahir ke Dunia</td>
+                            <td>08 September 2026</td>
+                        </tr>
+                        <tr>
+                            <td>Senyum Pertama (Sadar)</td>
+                            <td><em>Menyusul...</em></td>
+                        </tr>
+                        <tr>
+                            <td>Mulai Tengkurap Mandiri</td>
+                            <td><em>Menyusul...</em></td>
+                        </tr>
+                        <tr>
+                            <td>Tumbuh Gigi Pertama</td>
+                            <td><em>Menyusul...</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 9. Pengingat Imunisasi Dasar -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">💉 Pengingat Imunisasi Dasar <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <table class="immunization-table">
+                    <thead>
+                        <tr>
+                            <th>Usia / Jadwal</th>
+                            <th>Jenis Vaksin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Baru Lahir (0 Bulan)</td>
+                            <td>Hepatitis B (0), BCG, Polio 1</td>
+                        </tr>
+                        <tr>
+                            <td>2 Bulan</td>
+                            <td>DPT-HB-Hib 1, Polio 2</td>
+                        </tr>
+                        <tr>
+                            <td>3 Bulan</td>
+                            <td>DPT-HB-Hib 2, Polio 3</td>
+                        </tr>
+                        <tr>
+                            <td>4 Bulan</td>
+                            <td>DPT-HB-Hib 3, Polio 4, IPV</td>
+                        </tr>
+                        <tr>
+                            <td>9 Bulan</td>
+                            <td>Campak / Rubella</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 10. Catatan & Kegiatan Harian -->
+        <button class="accordion-btn" onclick="toggleNormalSection(this)">📖 Catatan & Kegiatan Harian <span>▼</span></button>
+        <div class="accordion-content">
+            <div class="card">
+                <div class="log-form">
+                    <h3 style="margin-top:0; color:var(--primary-color); font-size:1rem;">➕ Tambah Catatan Baru Hari Ini</h3>
+                    <input type="text" id="logTitle" placeholder="Judul / Tanggal (Contoh: 09 September 2026 - Hari Kedua)" autocomplete="off">
+                    <textarea id="logContent" rows="3" placeholder="Tulis kegiatan atau cerita hari ini..."></textarea>
+                    <div class="btn-group">
+                        <button onclick="addNewLog()">Simpan Catatan</button>
+                        <button onclick="exportLogs()" class="btn-secondary">📥 Download Cadangan Catatan (.txt)</button>
+                    </div>
+                </div>
+
+                <input type="text" id="searchLog" class="search-box" placeholder="🔍 Cari catatan berdasarkan kata kunci..." autocomplete="off" onkeyup="searchLogs()">
+
+                <div id="logContainer">
+                    <div class="log-entry" data-text="08 september 2026 hari pertama lahir alhamdulillah aluna melodi latifah lahir dengan selamat dan sehat pada pukul 10.00 wib dengan berat 3.2 kg dan panjang 49 cm tangisan pertamanya seketika menghapus segala lelah dan penantian panjang kami selama hampir 5 tahun selamat datang di pelukan ayah dan ibu nak">
+                        <div class="log-date">08 September 2026 (Hari Pertama Lahir)</div>
+                        <p>Alhamdulillah, Aluna Melodi Latifah lahir dengan selamat dan sehat pada pukul 10.00 WIB dengan berat 3.2 kg dan panjang 49 cm. Tangisan pertamanya seketika menghapus segala lelah dan penantian panjang kami selama hampir 5 tahun. Selamat datang di pelukan Ayah dan Ibu, Nak!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="window.print()" class="btn-print">🖨️ Cetak / Simpan ke PDF</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 - Dibuat dengan ❤️ oleh Ayah & Ibu untuk Aluna Melodi Latifah</p>
+    </footer>
+
+    <!-- Skrip JavaScript Galeri Otomatis (Cukup Upload Foto Berurutan ke GitHub) -->
+    <script>
+        let fotoList = [];
+        let currentIndex = 0;
+
+        // Script otomatis mengecek dan meload foto dari foto-aluna-01 sampai foto-aluna-99
+        function loadAutoGallery() {
+            const galleryContainer = document.getElementById('autoGallery');
+            if (!galleryContainer) return;
+
+            let loadedCount = 0;
+            fotoList = [];
+
+            // Mengecek file secara otomatis dari 1 sampai 50
+            for (let i = 1; i <= 50; i++) {
+                let numStr = i < 10 ? "0" + i : i;
+                let fileName = `foto-aluna-${numStr}.jpeg`;
+
+                // Cek apakah file foto tersebut benar-benar ada di folder/GitHub
+                let imgTest = new Image();
+                imgTest.src = fileName;
+                imgTest.onload = function() {
+                    fotoList.push({ src: fileName, caption: `Momen ${i}` });
+                    // Urutkan ulang berdasarkan nomor urut
+                    fotoList.sort((a, b) => {
+                        let numA = parseInt(a.src.match(/\d+/g)[1]);
+                        let numB = parseInt(b.src.match(/\d+/g)[1]);
+                        return numA - numB;
+                    });
+                    renderGalleryHTML();
+                };
+            }
+        }
+
+        function renderGalleryHTML() {
+            const galleryContainer = document.getElementById('autoGallery');
+            if (fotoList.length === 0) {
+                galleryContainer.innerHTML = '<p style="opacity: 0.7; grid-column: 1 / -1; text-align: center;">Memuat galeri foto...</p>';
+                return;
+            }
+
+            let html = '';
+            fotoList.forEach((item, index) => {
+                html += `
+                    <div style="background: var(--bg-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.2); text-align: center; cursor: pointer;" onclick="openModal(${index})">
+                        <img src="${item.src}" alt="Foto Aluna" style="width: 100%; height: 140px; object-fit: cover; display: block;">
+                        <span style="font-size: 0.8rem; opacity: 0.8; padding: 5px; display: block;">${item.caption}</span>
+                    </div>
+                `;
+            });
+            galleryContainer.innerHTML = html;
+        }
+
+        function openModal(index) {
+            currentIndex = index;
+            const modal = document.getElementById('photoModal');
+            modal.style.display = "flex";
+            updateModalContent();
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').style.display = "none";
+        }
+
+        function changePhoto(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = fotoList.length - 1;
+            } else if (currentIndex >= fotoList.length) {
+                currentIndex = 0;
+            }
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            const modalImg = document.getElementById('modalImage');
+            const captionTextElem = document.getElementById('modalCaption');
+            
+            if (fotoList[currentIndex]) {
+                modalImg.src = fotoList[currentIndex].src;
+                captionTextElem.innerText = `${fotoList[currentIndex].caption} (${currentIndex + 1} dari ${fotoList.length})`;
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('photoModal');
+            if (modal.style.display === "flex") {
+                if (event.key === "ArrowLeft") {
+                    changePhoto(-1);
+                } else if (event.key === "ArrowRight") {
+                    changePhoto(1);
+                } else if (event.key === "Escape") {
+                    closeModal();
+                }
+            }
+        });
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbygHLaWVPA2JheYI5LWr26a0g8A3Ko-vrZbpTlVhCXpoNtIJiLtdTeRLRDvWXglUIkb7Q/exec';
+
+        function sendWishes(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Mengirim...";
+            btn.disabled = true;
+
+            const form = document.getElementById('guestbookForm');
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    form.reset(); 
+                    btn.innerText = "Kirim Ucapan";
+                    btn.disabled = false;
+                    loadWishes(); 
+                })
+                .catch(error => {
+                    btn.innerText = "Kirim Ucapan";
+                    btn.disabled = false;
+                });
+        }
+
+        function loadWishes() {
+            fetch(scriptURL)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('wishesContainer');
+                    if (!data || data.length === 0) {
+                        container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada ucapan. Jadilah yang pertama memberi doa!</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    data.reverse().forEach(row => {
+                        let formattedDate = row.waktu ? new Date(row.waktu).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
+                        html += `
+                            <div class="log-entry">
+                                <div class="log-date">${row.nama} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
+                                <p style="margin: 5px 0 0;">${row.ucapan}</p>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                })
+                .catch(err => {
+                    document.getElementById('wishesContainer').innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan.</p>';
+                });
+        }
+
+        function fadeInMusic(audio) {
+            audio.volume = 0;
+            audio.play().then(() => {
+                let vol = 0;
+                let fade = setInterval(() => {
+                    if (vol < 1) {
+                        vol += 0.1;
+                        audio.volume = Math.min(vol, 1);
+                    } else {
+                        clearInterval(fade);
+                    }
+                }, 150);
+                document.getElementById('musicBtn').innerText = "⏸️ Jeda";
+            }).catch(e => {});
+        }
+
+        function fadeOutMusic(audio, callback) {
+            let vol = audio.volume;
+            let fade = setInterval(() => {
+                if (vol > 0.1) {
+                    vol -= 0.1;
+                    audio.volume = Math.max(vol, 0);
+                } else {
+                    clearInterval(fade);
+                    audio.pause();
+                    audio.currentTime = 0;
+                    document.getElementById('musicBtn').innerText = "▶️ Musik";
+                    if (callback) callback();
+                }
+            }, 100);
+        }
+
+        function toggleMainMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            if (music.paused) {
+                fadeInMusic(music);
+            } else {
+                fadeOutMusic(music);
+            }
+        }
+
+        function toggleMusicSection(btn) {
+            const allBtns = document.getElementsByClassName("accordion-btn");
+            for (let i = 0; i < allBtns.length; i++) {
+                if (allBtns[i] !== btn) {
+                    allBtns[i].classList.remove("active");
+                    const content = allBtns[i].nextElementSibling;
+                    if (content && content.style.display === "block") {
+                        content.style.display = "none";
+                        const span = allBtns[i].querySelector("span");
+                        if (span) span.innerText = "▼";
+                    }
+                }
+            }
+
+            const content = btn.nextElementSibling;
+            const music = document.getElementById('bgMusic');
+
+            if (content.style.display === "block") {
+                fadeOutMusic(music, () => {
+                    content.style.display = "none";
+                    btn.classList.remove("active");
+                    btn.querySelector("span").innerText = "▼";
+                });
+            } else {
+                content.style.display = "block";
+                btn.classList.add("active");
+                btn.querySelector("span").innerText = "▲";
+                fadeInMusic(music);
+            }
+        }
+
+        function toggleNormalSection(btn) {
+            btn.classList.toggle("active");
+            const content = btn.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.querySelector("span").innerText = "▼";
+            } else {
+                content.style.display = "block";
+                btn.querySelector("span").innerText = "▲";
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("light-theme");
+        }
+
+        function updateCounters() {
+            const birthDate = new Date('2026-09-08T10:00:00');
+            const now = new Date();
+            const diffTime = now - birthDate;
+
+            if (diffTime >= 0) {
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('ageCounter').innerText = `✨ Usia: ${diffDays} Hari, ${diffHours} Jam ✨`;
+            }
+
+            const nextBirthday = new Date('2027-09-08T10:00:00');
+            const timeLeft = nextBirthday - now;
+            if (timeLeft > 0) {
+                const bDays = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                document.getElementById('birthdayCountdown').innerText = `🎂 Menuju Ultah ke-1: ${bDays} Hari lagi 🎂`;
+            } else {
+                document.getElementById('birthdayCountdown').innerText = `🎂 Selamat Ulang Tahun ke-1 Aluna! 🎂`;
+            }
+        }
+        setInterval(updateCounters, 1000);
+        updateCounters();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadLogs();
+            loadWishes();
+            loadAutoGallery();
+        });
+
+        function addNewLog() {
+            const titleInput = document.getElementById('logTitle');
+            const contentInput = document.getElementById('logContent');
+            const title = titleInput.value;
+            const content = contentInput.value;
+
+            if(!title || !content) {
+                return;
+            }
+
+            const newLog = { title, content };
+            let logs = JSON.parse(localStorage.getItem('aluna_logs')) || [];
+            logs.unshift(newLog);
+            localStorage.setItem('aluna_logs', JSON.stringify(logs));
+
+            titleInput.value = '';
+            contentInput.value = ''; 
+
+            renderLogs();
+        }
+
+        function loadLogs() {
+            renderLogs();
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('logContainer');
+            let logs = JSON.parse(localStorage.getItem('aluna_logs')) || [];
+
+            let html = `
+                <div class="log-entry" data-text="08 september 2026 hari pertama lahir alhamdulillah aluna melodi latifah lahir dengan selamat dan sehat pada pukul 10.00 wib dengan berat 3.2 kg dan panjang 49 cm tangisan pertamanya seketika menghapus segala lelah dan penantian panjang kami selama hampir 5 tahun selamat datang di pelukan ayah dan ibu nak">
+                    <div class="log-date">08 September 2026 (Hari Pertama Lahir)</div>
+                    <p>Alhamdulillah, Aluna Melodi Latifah lahir dengan selamat dan sehat pada pukul 10.00 WIB dengan berat 3.2 kg dan panjang 49 cm. Tangisan pertamanya seketika menghapus segala lelah dan penantian panjang kami selama hampir 5 tahun. Selamat datang di pelukan Ayah dan Ibu, Nak!</p>
+                </div>
+            `;
+
+            logs.forEach(log => {
+                const fullText = (log.title + " " + log.content).toLowerCase();
+                html += `
+                    <div class="log-entry" data-text="${fullText}">
+                        <div class="log-date">${log.title}</div>
+                        <p>${log.content}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function searchLogs() {
+            const query = document.getElementById('searchLog').value.toLowerCase();
+            const entries = document.getElementsByClassName('log-entry');
+
+            for (let i = 0; i < entries.length; i++) {
+                const text = entries[i].getAttribute('data-text');
+                if (text.includes(query)) {
+                    entries[i].style.display = "block";
+                } else {
+                    entries[i].style.display = "none";
+                }
+            }
+        }
+
+        function exportLogs() {
+            let logs = JSON.parse(localStorage.getItem('aluna_logs')) || [];
+            let text = "CATATAN TUMBUH KEMBANG ALUNA MELODI LATIFAH\n==========================================\n\n";
+            text += "08 September 2026 (Hari Pertama Lahir)\nAlhamdulillah, Aluna Melodi Latifah lahir dengan selamat dan sehat pada pukul 10.00 WIB dengan berat 3.2 kg dan panjang 49 cm.\n\n";
+            
+            logs.forEach(log => {
+                text += `${log.title}\n${log.content}\n\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Catatan_Aluna_Melodi_Latifah.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
