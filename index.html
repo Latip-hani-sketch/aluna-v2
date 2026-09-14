@@ -331,7 +331,7 @@
             font-weight: bold;
         }
 
-        /* Styling untuk Modal Zoom & Tombol Geser (Slider) */
+        /* Styling Modal Zoom & Slideshow */
         #photoModal {
             display: none;
             position: fixed;
@@ -441,7 +441,13 @@
             <button class="top-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
 
-        <audio id="bgMusic" loop preload="auto">
+        <!-- 1. Musik Utama (Selamat Datang Putri Pertama.mp3) -->
+        <audio id="mainMusic" loop preload="auto">
+            <source src="Selamat Datang Putri Pertama.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- 2. Musik Khusus Pesan Cinta & Surat Terbuka (Saat Kau Telah Mengerti.mp3) -->
+        <audio id="specialMusic" loop preload="auto">
             <source src="Saat Kau Telah Mengerti.mp3" type="audio/mpeg">
         </audio>
 
@@ -456,17 +462,17 @@
     <div class="container">
 
         <!-- 1. Pesan Cinta untuk Aluna -->
-        <button class="accordion-btn" onclick="toggleMusicSection(this)">💌 Pesan Cinta untuk Aluna <span>▼</span></button>
+        <button class="accordion-btn" onclick="toggleSpecialMusicSection(this)">💌 Pesan Cinta untuk Aluna <span>▼</span></button>
         <div class="accordion-content">
             <div class="card">
                 <div class="quote-box" style="margin-bottom:0;">
-                    "Untuk putri kecilku tersayang, Aluna Melodi Latifah, kehadiranmu di dunia ini adalah mukjizat terindah yang Allah titipkan setelah Ayah dan Ibu menanti, berdoa, and berjuang selama hampir lima tahun lamanya. Setiap detik penantian itu terbayar lunas saat pertama kali melihat senyum dan mendengar tangisanmu. Kamu adalah bukti nyata bahwa doa yang sabar tidak pernah sia-sia. Terima kasih telah melengkapi keluarga kecil kita."
+                    "Untuk putri kecilku tersayang, Aluna Melodi Latifah, kehadiranmu di dunia ini adalah mukjizat terindah yang Allah titipkan setelah Ayah dan Ibu menanti, berdoa, dan berjuang selama hampir lima tahun lamanya. Setiap detik penantian itu terbayar lunas saat pertama kali melihat senyum dan mendengar tangisanmu. Kamu adalah bukti nyata bahwa doa yang sabar tidak pernah sia-sia. Terima kasih telah melengkapi keluarga kecil kita."
                 </div>
             </div>
         </div>
 
         <!-- 2. Surat Terbuka untuk Masa Depan -->
-        <button class="accordion-btn" onclick="toggleMusicSection(this)">✉️ Surat Terbuka Ayah & Ibu untuk Masa Depan Aluna <span>▼</span></button>
+        <button class="accordion-btn" onclick="toggleSpecialMusicSection(this)">✉️ Surat Terbuka Ayah & Ibu untuk Masa Depan Aluna <span>▼</span></button>
         <div class="accordion-content">
             <div class="card">
                 <p style="font-style: italic; opacity: 0.8; margin-top:0;">(Surat ini ditulis khusus untuk dibaca Aluna saat sudah dewasa kelak)</p>
@@ -715,30 +721,24 @@
         <p>&copy; 2026 - Dibuat dengan ❤️ oleh Ayah & Ibu untuk Aluna Melodi Latifah</p>
     </footer>
 
-    <!-- Skrip JavaScript Galeri Otomatis (Cukup Upload Foto Berurutan ke GitHub) -->
+    <!-- Skrip JavaScript Lengkap -->
     <script>
         let fotoList = [];
         let currentIndex = 0;
 
-        // Script otomatis mengecek dan meload foto dari foto-aluna-01 sampai foto-aluna-99
         function loadAutoGallery() {
             const galleryContainer = document.getElementById('autoGallery');
             if (!galleryContainer) return;
 
-            let loadedCount = 0;
             fotoList = [];
-
-            // Mengecek file secara otomatis dari 1 sampai 50
             for (let i = 1; i <= 50; i++) {
                 let numStr = i < 10 ? "0" + i : i;
                 let fileName = `foto-aluna-${numStr}.jpeg`;
 
-                // Cek apakah file foto tersebut benar-benar ada di folder/GitHub
                 let imgTest = new Image();
                 imgTest.src = fileName;
                 imgTest.onload = function() {
                     fotoList.push({ src: fileName, caption: `Momen ${i}` });
-                    // Urutkan ulang berdasarkan nomor urut
                     fotoList.sort((a, b) => {
                         let numA = parseInt(a.src.match(/\d+/g)[1]);
                         let numB = parseInt(b.src.match(/\d+/g)[1]);
@@ -835,30 +835,32 @@
         }
 
         function loadWishes() {
-            fetch(scriptURL)
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('wishesContainer');
-                    if (!data || data.length === 0) {
-                        container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada ucapan. Jadilah yang pertama memberi doa!</p>';
-                        return;
-                    }
+            if (!scriptURL || scriptURL.includes("AKfy")) {
+                fetch(scriptURL)
+                    .then(res => res.json())
+                    .then(data => {
+                        const container = document.getElementById('wishesContainer');
+                        if (!data || data.length === 0) {
+                            container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada ucapan. Jadilah yang pertama memberi doa!</p>';
+                            return;
+                        }
 
-                    let html = '';
-                    data.reverse().forEach(row => {
-                        let formattedDate = row.waktu ? new Date(row.waktu).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
-                        html += `
-                            <div class="log-entry">
-                                <div class="log-date">${row.nama} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
-                                <p style="margin: 5px 0 0;">${row.ucapan}</p>
-                            </div>
-                        `;
+                        let html = '';
+                        data.reverse().forEach(row => {
+                            let formattedDate = row.waktu ? new Date(row.waktu).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
+                            html += `
+                                <div class="log-entry">
+                                    <div class="log-date">${row.nama} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
+                                    <p style="margin: 5px 0 0;">${row.ucapan}</p>
+                                </div>
+                            `;
+                        });
+                        container.innerHTML = html;
+                    })
+                    .catch(err => {
+                        document.getElementById('wishesContainer').innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan.</p>';
                     });
-                    container.innerHTML = html;
-                })
-                .catch(err => {
-                    document.getElementById('wishesContainer').innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan.</p>';
-                });
+            }
         }
 
         function fadeInMusic(audio) {
@@ -894,43 +896,51 @@
         }
 
         function toggleMainMusic() {
-            const music = document.getElementById('bgMusic');
-            const btn = document.getElementById('musicBtn');
-            if (music.paused) {
-                fadeInMusic(music);
+            const mainMusic = document.getElementById('mainMusic');
+            const specialMusic = document.getElementById('specialMusic');
+            
+            specialMusic.pause();
+            specialMusic.currentTime = 0;
+
+            if (mainMusic.paused) {
+                fadeInMusic(mainMusic);
             } else {
-                fadeOutMusic(music);
+                fadeOutMusic(mainMusic);
             }
         }
 
-        function toggleMusicSection(btn) {
-            const allBtns = document.getElementsByClassName("accordion-btn");
-            for (let i = 0; i < allBtns.length; i++) {
-                if (allBtns[i] !== btn) {
-                    allBtns[i].classList.remove("active");
-                    const content = allBtns[i].nextElementSibling;
-                    if (content && content.style.display === "block") {
-                        content.style.display = "none";
-                        const span = allBtns[i].querySelector("span");
-                        if (span) span.innerText = "▼";
-                    }
-                }
-            }
-
+        function toggleSpecialMusicSection(btn) {
             const content = btn.nextElementSibling;
-            const music = document.getElementById('bgMusic');
+            const mainMusic = document.getElementById('mainMusic');
+            const specialMusic = document.getElementById('specialMusic');
 
             if (content.style.display === "block") {
-                fadeOutMusic(music, () => {
+                fadeOutMusic(specialMusic, () => {
                     content.style.display = "none";
                     btn.classList.remove("active");
                     btn.querySelector("span").innerText = "▼";
                 });
             } else {
+                mainMusic.pause();
+                mainMusic.currentTime = 0;
+                document.getElementById('musicBtn').innerText = "▶️ Musik";
+
                 content.style.display = "block";
                 btn.classList.add("active");
                 btn.querySelector("span").innerText = "▲";
-                fadeInMusic(music);
+                
+                specialMusic.volume = 0;
+                specialMusic.play().then(() => {
+                    let vol = 0;
+                    let fade = setInterval(() => {
+                        if (vol < 1) {
+                            vol += 0.1;
+                            specialMusic.volume = Math.min(vol, 1);
+                        } else {
+                            clearInterval(fade);
+                        }
+                    }, 150);
+                }).catch(e => {});
             }
         }
 
