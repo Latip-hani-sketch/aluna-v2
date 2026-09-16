@@ -331,7 +331,7 @@
             font-weight: bold;
         }
 
-        /* Styling Modal Zoom & Slideshow */
+        /* Styling Modal Zoom Foto */
         #photoModal {
             display: none;
             position: fixed;
@@ -409,6 +409,91 @@
 
         .prev-btn { left: -60px; }
         .next-btn { right: -60px; }
+
+        /* Styling Custom Modal Notifikasi (Admin & Alert) */
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 100000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-modal-box {
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            animation: modalPop 0.25s ease-out;
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .custom-modal-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .custom-modal-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .modal-btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .modal-btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn-primary {
+            background-color: #b83b5e;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background-color: #a0314f;
+        }
+
+        .modal-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .modal-btn-secondary:hover {
+            background-color: #5a6268;
+        }
 
         @media (max-width: 768px) {
             .prev-btn { left: 10px; }
@@ -593,7 +678,22 @@
             <div id="modalCaption"></div>
         </div>
 
-        <!-- 7. Buku Tamu & Ucapan Keluarga (Firebase Firestore) -->
+        <!-- CUSTOM MODAL NOTIFIKASI / ADMIN PASSWORD -->
+        <div id="customModal" class="custom-modal-overlay">
+            <div class="custom-modal-box">
+                <h3 id="modalTitle">Konfirmasi</h3>
+                <p id="modalMessage" style="margin: 10px 0; font-size: 0.95rem; opacity: 0.9;"></p>
+                <div id="modalInputContainer" style="display: none;">
+                    <input type="password" id="modalPasswordInput" placeholder="Masukkan password..." autocomplete="off">
+                </div>
+                <div class="modal-btn-group">
+                    <button id="modalBtnCancel" class="modal-btn modal-btn-secondary" onclick="closeCustomModal(false)">Batal</button>
+                    <button id="modalBtnConfirm" class="modal-btn modal-btn-primary" onclick="closeCustomModal(true)">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Buku Tamu & Ucapan Keluarga (Firebase Firestore + Enter Support) -->
         <button class="accordion-btn" onclick="toggleNormalSection(this)">💬 Buku Tamu & Ucapan Keluarga <span>▼</span></button>
         <div class="accordion-content">
             <div class="card">
@@ -715,7 +815,7 @@
         <p>&copy; 2026 - Dibuat dengan ❤️ oleh Ayah & Ibu untuk Aluna Melodi Latifah</p>
     </footer>
 
-    <!-- SKRIP JAVASCRIPT & FIREBASE -->
+    <!-- SKRIP JAVASCRIPT UTAMA -->
     <script>
         let fotoList = [];
         let currentIndex = 0;
@@ -1016,10 +1116,10 @@
         }
     </script>
 
-    <!-- FIREBASE FIRESTORE SDK & SCRIPT BUKU TAMU -->
+    <!-- FIREBASE FIRESTORE SDK & SCRIPT BUKU TAMU + ENTER KEY SUPPORT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyArjHlPxU2rbm8dYinjXhw1v5NBXiB8k1w",
@@ -1034,6 +1134,72 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        let modalCallback = null;
+
+        // Fungsi Menampilkan Custom Modal dengan Dukungan Enter
+        function showCustomModal(title, message, showInput, confirmText = "OK", cancelText = "Batal") {
+            return new Promise((resolve) => {
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalMessage').innerText = message;
+                
+                const inputContainer = document.getElementById('modalInputContainer');
+                const passwordInput = document.getElementById('modalPasswordInput');
+                const btnCancel = document.getElementById('modalBtnCancel');
+                const btnConfirm = document.getElementById('modalBtnConfirm');
+
+                passwordInput.value = "";
+                if (showInput) {
+                    inputContainer.style.display = "block";
+                    passwordInput.focus();
+                } else {
+                    inputContainer.style.display = "none";
+                }
+
+                if (cancelText === "") {
+                    btnCancel.style.display = "none";
+                } else {
+                    btnCancel.style.display = "inline-block";
+                    btnCancel.innerText = cancelText;
+                }
+
+                btnConfirm.innerText = confirmText;
+                const modalOverlay = document.getElementById('customModal');
+                modalOverlay.style.display = "flex";
+
+                // Listener tombol Enter pada input password
+                const handleKeypress = function(e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        cleanup();
+                        resolve(showInput ? passwordInput.value : true);
+                    }
+                };
+
+                if (showInput) {
+                    passwordInput.addEventListener('keydown', handleKeypress);
+                }
+
+                modalCallback = (confirmed, val) => {
+                    cleanup();
+                    resolve(confirmed ? (showInput ? val : true) : false);
+                };
+
+                function cleanup() {
+                    modalOverlay.style.display = "none";
+                    if (showInput) {
+                        passwordInput.removeEventListener('keydown', handleKeypress);
+                    }
+                }
+            });
+        }
+
+        window.closeCustomModal = function(confirmed) {
+            const passwordInput = document.getElementById('modalPasswordInput');
+            const val = passwordInput.value;
+            if (modalCallback) modalCallback(confirmed, val);
+        };
+
+        // Kirim Ucapan ke Firestore
         window.sendFirebaseWishes = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -1057,12 +1223,13 @@
                 loadFirebaseWishes(); 
             } catch (error) {
                 console.error("Error detail:", error);
-                alert("Gagal mengirim ucapan: " + error.message);
+                await showCustomModal("Gagal", "Gagal mengirim ucapan: " + error.message, false, "OK", "");
                 btn.innerText = "Kirim Ucapan";
                 btn.disabled = false;
             }
         };
 
+        // Memuat Ucapan dari Firestore
         async function loadFirebaseWishes() {
             const container = document.getElementById('wishesContainer');
             try {
@@ -1075,12 +1242,17 @@
                 }
 
                 let html = '';
-                querySnapshot.forEach((doc) => {
-                    let row = doc.data();
+                querySnapshot.forEach((documentSnapshot) => {
+                    let row = documentSnapshot.data();
+                    let docId = documentSnapshot.id;
                     let formattedDate = row.waktu ? new Date(row.waktu.toDate()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : 'Baru saja';
+                    
                     html += `
-                        <div class="log-entry">
-                            <div class="log-date">${escapeHtml(row.nama)} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
+                        <div class="log-entry" style="position: relative;">
+                            <div class="log-date">
+                                ${escapeHtml(row.nama)} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span>
+                                <button onclick="deleteWish('${docId}')" style="float: right; background: #ff4d4d; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">🗑️ Hapus</button>
+                            </div>
                             <p style="margin: 5px 0 0;">${escapeHtml(row.ucapan)}</p>
                         </div>
                     `;
@@ -1091,6 +1263,26 @@
                 container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan dari server.</p>';
             }
         }
+
+        // Fungsi Hapus Ucapan dengan Password dan Enter Support
+        window.deleteWish = async function(docId) {
+            let password = await showCustomModal("🔐 Autentikasi Admin", "Masukkan password admin untuk menghapus ucapan ini:", true, "Lanjutkan", "Batal");
+            
+            if (password === false) return;
+
+            if (password === "aluna2026") {
+                try {
+                    await deleteDoc(doc(db, "buku_tamu", docId));
+                    await showCustomModal("Berhasil", "Ucapan berhasil dihapus dari sistem.", false, "OK", "");
+                    loadFirebaseWishes();
+                } catch (error) {
+                    console.error("Gagal menghapus: ", error);
+                    await showCustomModal("Error", "Gagal menghapus ucapan dari server.", false, "OK", "");
+                }
+            } else {
+                await showCustomModal("Akses Ditolak", "Password salah! Anda tidak memiliki izin admin.", false, "OK", "");
+            }
+        };
 
         function escapeHtml(text) {
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
