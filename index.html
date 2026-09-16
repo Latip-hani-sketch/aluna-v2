@@ -441,12 +441,10 @@
             <button class="top-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
 
-        <!-- 1. Musik Utama (Selamat Datang Putri Pertama.mp3) -->
         <audio id="mainMusic" loop preload="auto">
             <source src="Selamat Datang Putri Pertama.mp3" type="audio/mpeg">
         </audio>
 
-        <!-- 2. Musik Khusus Pesan Cinta & Surat Terbuka (Saat Kau Telah Mengerti.mp3) -->
         <audio id="specialMusic" loop preload="auto">
             <source src="Saat Kau Telah Mengerti.mp3" type="audio/mpeg">
         </audio>
@@ -535,7 +533,6 @@
             <div class="card">
                 <p style="font-style: italic; opacity: 0.8; margin-top:0; font-size:0.9rem; text-align:center;">Keluarga besar tercinta yang mendoakan dan menyayangi Aluna:</p>
                 <div class="family-grid">
-                    <!-- Keluarga Pihak Hani -->
                     <div class="family-box">
                         <h4>🌸 Keluarga Besar Ibu (Hani)</h4>
                         <ul>
@@ -543,7 +540,6 @@
                             <li><strong>Onty & Om:</strong> July & Ilham</li>
                         </ul>
                     </div>
-                    <!-- Keluarga Pihak Latip -->
                     <div class="family-box">
                         <h4>🌿 Keluarga Besar Ayah (Latip)</h4>
                         <ul>
@@ -587,23 +583,21 @@
         </div>
 
         <!-- MODAL ZOOM & SLIDESHOW FOTO -->
-        <div id="photoModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); align-items: center; justify-content: center; flex-direction: column;">
+        <div id="photoModal">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            
             <div class="modal-content-container">
                 <button class="nav-btn prev-btn" onclick="changePhoto(-1)">&#10094;</button>
                 <img id="modalImage" src="" alt="Zoom Foto">
                 <button class="nav-btn next-btn" onclick="changePhoto(1)">&#10095;</button>
             </div>
-            
             <div id="modalCaption"></div>
         </div>
 
-        <!-- 7. Buku Tamu & Ucapan Keluarga -->
+        <!-- 7. Buku Tamu & Ucapan Keluarga (Firebase Firestore) -->
         <button class="accordion-btn" onclick="toggleNormalSection(this)">💬 Buku Tamu & Ucapan Keluarga <span>▼</span></button>
         <div class="accordion-content">
             <div class="card">
-                <form id="guestbookForm" class="log-form" onsubmit="sendWishes(event)">
+                <form id="guestbookForm" class="log-form" onsubmit="sendFirebaseWishes(event)">
                     <h3 style="margin-top:0; color:var(--primary-color); font-size:1rem;">✍️ Tinggalkan Ucapan & Doa untuk Aluna</h3>
                     <input type="text" id="guestName" name="nama" placeholder="Nama Anda / Hubungan (Contoh: Kakek / Tante Rina)" autocomplete="off" required>
                     <textarea id="guestMessage" name="ucapan" rows="3" placeholder="Tulis doa atau ucapan terbaik untuk Aluna..." autocomplete="off" required></textarea>
@@ -611,7 +605,7 @@
                 </form>
 
                 <div id="wishesContainer" style="margin-top: 1.5rem;">
-                    <p style="text-align: center; opacity: 0.7;">Memuat ucapan...</p>
+                    <p style="text-align: center; opacity: 0.7;">Memuat ucapan dari keluarga...</p>
                 </div>
             </div>
         </div>
@@ -721,7 +715,7 @@
         <p>&copy; 2026 - Dibuat dengan ❤️ oleh Ayah & Ibu untuk Aluna Melodi Latifah</p>
     </footer>
 
-    <!-- Skrip JavaScript Lengkap -->
+    <!-- SKRIP JAVASCRIPT & FIREBASE -->
     <script>
         let fotoList = [];
         let currentIndex = 0;
@@ -812,57 +806,6 @@
             }
         });
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbygHLaWVPA2JheYI5LWr26a0g8A3Ko-vrZbpTlVhCXpoNtIJiLtdTeRLRDvWXglUIkb7Q/exec';
-
-        function sendWishes(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "Mengirim...";
-            btn.disabled = true;
-
-            const form = document.getElementById('guestbookForm');
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    form.reset(); 
-                    btn.innerText = "Kirim Ucapan";
-                    btn.disabled = false;
-                    loadWishes(); 
-                })
-                .catch(error => {
-                    btn.innerText = "Kirim Ucapan";
-                    btn.disabled = false;
-                });
-        }
-
-        function loadWishes() {
-            if (!scriptURL || scriptURL.includes("AKfy")) {
-                fetch(scriptURL)
-                    .then(res => res.json())
-                    .then(data => {
-                        const container = document.getElementById('wishesContainer');
-                        if (!data || data.length === 0) {
-                            container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada ucapan. Jadilah yang pertama memberi doa!</p>';
-                            return;
-                        }
-
-                        let html = '';
-                        data.reverse().forEach(row => {
-                            let formattedDate = row.waktu ? new Date(row.waktu).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : '';
-                            html += `
-                                <div class="log-entry">
-                                    <div class="log-date">${row.nama} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
-                                    <p style="margin: 5px 0 0;">${row.ucapan}</p>
-                                </div>
-                            `;
-                        });
-                        container.innerHTML = html;
-                    })
-                    .catch(err => {
-                        document.getElementById('wishesContainer').innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan.</p>';
-                    });
-            }
-        }
-
         function fadeInMusic(audio) {
             audio.volume = 0;
             audio.play().then(() => {
@@ -909,14 +852,12 @@
             }
         }
 
-        // Kontrol Tombol Menu Khusus (Pesan Cinta & Surat Terbuka) dengan Musik Berkelanjutan
         function toggleSpecialMusicSection(btn) {
             const content = btn.nextElementSibling;
             const isOpen = (content.style.display === "block");
             const mainMusic = document.getElementById('mainMusic');
             const specialMusic = document.getElementById('specialMusic');
 
-            // 1. Tutup semua menu khusus dan matikan musik utamanya
             const allBtns = document.getElementsByClassName("accordion-btn");
             for (let i = 0; i < allBtns.length; i++) {
                 if (allBtns[i] !== btn && (allBtns[i].innerText.includes("Pesan Cinta") || allBtns[i].innerText.includes("Surat Terbuka"))) {
@@ -929,14 +870,12 @@
             }
 
             if (isOpen) {
-                // Jika menu yang diklik sedang terbuka lalu ditutup
                 fadeOutMusic(specialMusic, () => {
                     content.style.display = "none";
                     btn.classList.remove("active");
                     btn.querySelector("span").innerText = "▼";
                 });
             } else {
-                // Jika membuka menu (pindah antar menu khusus atau buka baru)
                 mainMusic.pause();
                 mainMusic.currentTime = 0;
                 document.getElementById('musicBtn').innerText = "▶️ Musik";
@@ -945,9 +884,8 @@
                 btn.classList.add("active");
                 btn.querySelector("span").innerText = "▲";
 
-                // Putar lagu tanpa mereset ke detik 0 (jika sudah berjalan/dipause sebelumnya)
                 specialMusic.play().then(() => {
-                    specialMusic.volume = 1; // Langsung atur suara penuh atau sesuaikan dengan fade halus
+                    specialMusic.volume = 1;
                 }).catch(e => {});
             }
         }
@@ -993,7 +931,6 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             loadLogs();
-            loadWishes();
             loadAutoGallery();
         });
 
@@ -1077,6 +1014,91 @@
             a.click();
             URL.revokeObjectURL(url);
         }
+    </script>
+
+    <!-- FIREBASE FIRESTORE SDK & SCRIPT BUKU TAMU -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyArjHlPxU2rbm8dYinjXhw1v5NBXiB8k1w",
+            authDomain: "web-aluna.firebaseapp.com",
+            projectId: "web-aluna",
+            storageBucket: "web-aluna.firebasestorage.app",
+            messagingSenderId: "620454771808",
+            appId: "1:620454771808:web:e40cc3c3407d109b671705",
+            measurementId: "G-6TC3ZJYH0X"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.sendFirebaseWishes = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const nameInput = document.getElementById('guestName');
+            const messageInput = document.getElementById('guestMessage');
+
+            btn.innerText = "Mengirim...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "buku_tamu"), {
+                    nama: nameInput.value,
+                    ucapan: messageInput.value,
+                    waktu: serverTimestamp()
+                });
+
+                nameInput.value = '';
+                messageInput.value = '';
+                btn.innerText = "Kirim Ucapan";
+                btn.disabled = false;
+                loadFirebaseWishes(); 
+            } catch (error) {
+                console.error("Error detail:", error);
+                alert("Gagal mengirim ucapan: " + error.message);
+                btn.innerText = "Kirim Ucapan";
+                btn.disabled = false;
+            }
+        };
+
+        async function loadFirebaseWishes() {
+            const container = document.getElementById('wishesContainer');
+            try {
+                const q = query(collection(db, "buku_tamu"), orderBy("waktu", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada ucapan. Jadilah yang pertama memberi doa!</p>';
+                    return;
+                }
+
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    let row = doc.data();
+                    let formattedDate = row.waktu ? new Date(row.waktu.toDate()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : 'Baru saja';
+                    html += `
+                        <div class="log-entry">
+                            <div class="log-date">${escapeHtml(row.nama)} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span></div>
+                            <p style="margin: 5px 0 0;">${escapeHtml(row.ucapan)}</p>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } catch (error) {
+                console.error("Error load:", error);
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Gagal memuat ucapan dari server.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadFirebaseWishes();
+        });
     </script>
 </body>
 </html>
