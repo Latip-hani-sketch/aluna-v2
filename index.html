@@ -69,6 +69,9 @@
             right: 15px;
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 50%;
         }
 
         .top-btn {
@@ -81,10 +84,16 @@
             font-weight: bold;
             color: #b83b5e;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: 0.2s;
         }
 
         .top-btn:hover {
             background: #fff;
+        }
+
+        .admin-active-badge {
+            background: #28a745 !important;
+            color: white !important;
         }
 
         .badge-container {
@@ -315,6 +324,27 @@
             background-color: #218838;
         }
 
+        .btn-wa {
+            background-color: #25d366;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: 0.2s;
+        }
+
+        .btn-wa:hover {
+            background-color: #20ba5a;
+        }
+
         .log-entry {
             border-left: 4px solid var(--primary-color);
             padding-left: 1rem;
@@ -410,7 +440,7 @@
         .prev-btn { left: -60px; }
         .next-btn { right: -60px; }
 
-        /* Styling Custom Modal Notifikasi (Admin & Alert) */
+        /* Styling Custom Modal Notifikasi */
         .custom-modal-overlay {
             display: none;
             position: fixed;
@@ -499,10 +529,11 @@
             .prev-btn { left: 10px; }
             .next-btn { right: 10px; }
             .nav-btn { padding: 10px 15px; font-size: 18px; }
+            .top-controls { max-width: 65%; }
         }
 
         @media print {
-            .log-form, .btn-group, .accordion-btn, .top-controls, .search-box, .btn-print {
+            .log-form, .btn-group, .accordion-btn, .top-controls, .search-box, .btn-print, .btn-wa {
                 display: none !important;
             }
             .accordion-content {
@@ -523,6 +554,7 @@
     <header>
         <div class="top-controls">
             <button class="top-btn" id="musicBtn" onclick="toggleMainMusic()">▶️ Musik</button>
+            <button class="top-btn" id="adminBtn" onclick="toggleAdminMode()">🔐 Admin</button>
             <button class="top-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
 
@@ -574,11 +606,11 @@
                     </div>
                     <div class="info-box">
                         <span>Tanggal Lahir</span>
-                        <strong>08 September 2026</strong>
+                        <strong id="valBirthDate">**-**-2026</strong>
                     </div>
                     <div class="info-box">
                         <span>Jam Lahir</span>
-                        <strong>10:00 WIB</strong>
+                        <strong id="valBirthTime">**:00 WIB</strong>
                     </div>
                     <div class="info-box">
                         <span>Berat / Panjang</span>
@@ -597,13 +629,16 @@
                     </div>
                     <div class="info-box" style="grid-column: 1 / -1;">
                         <span>Menikah Sejak</span>
-                        <strong>20 Oktober 2021</strong>
+                        <strong id="valMarriageDate">20 Oktober ****</strong>
                     </div>
                 </div>
                 
                 <div class="helper-list">
                     <div class="helper-item">
-                        <strong>Dokter / Medis:</strong> dr. Yuliati, Sp.OG
+                        <strong>Dokter Obgin:</strong> dr. Yuliati, Sp.OG
+                    </div>
+                    <div class="helper-item">
+                        <strong>Dokter Anak:</strong> dr. Nanda, Sp.A
                     </div>
                     <div class="helper-item">
                         <strong>Rumah Sakit:</strong> RSU HASANAH GRAHA AFIAH (HGA)
@@ -678,7 +713,7 @@
             <div id="modalCaption"></div>
         </div>
 
-        <!-- CUSTOM MODAL NOTIFIKASI / ADMIN PASSWORD -->
+        <!-- CUSTOM MODAL NOTIFIKASI -->
         <div id="customModal" class="custom-modal-overlay">
             <div class="custom-modal-box">
                 <h3 id="modalTitle">Konfirmasi</h3>
@@ -693,13 +728,13 @@
             </div>
         </div>
 
-        <!-- 7. Buku Tamu & Ucapan Keluarga (Firebase Firestore + Enter Support) -->
+        <!-- 7. Buku Tamu & Ucapan Keluarga -->
         <button class="accordion-btn" onclick="toggleNormalSection(this)">💬 Buku Tamu & Ucapan Keluarga <span>▼</span></button>
         <div class="accordion-content">
             <div class="card">
                 <form id="guestbookForm" class="log-form" onsubmit="sendFirebaseWishes(event)">
                     <h3 style="margin-top:0; color:var(--primary-color); font-size:1rem;">✍️ Tinggalkan Ucapan & Doa untuk Aluna</h3>
-                    <input type="text" id="guestName" name="nama" placeholder="Nama Anda / Hubungan (Contoh: Kakek / onty dina)" autocomplete="off" required>
+                    <input type="text" id="guestName" name="nama" placeholder="Nama Anda / Hubungan (Contoh: Kakek / Tante Rina)" autocomplete="off" required>
                     <textarea id="guestMessage" name="ucapan" rows="3" placeholder="Tulis doa atau ucapan terbaik untuk Aluna..." autocomplete="off" required></textarea>
                     <button type="submit" id="submitBtn">Kirim Ucapan</button>
                 </form>
@@ -710,73 +745,77 @@
             </div>
         </div>
 
-        <!-- 8. Catatan Milestone -->
-        <button class="accordion-btn" onclick="toggleNormalSection(this)">🎯 Catatan Milestone (Tumbuh Kembang) <span>▼</span></button>
-        <div class="accordion-content">
-            <div class="card">
-                <table class="milestone-table">
-                    <thead>
-                        <tr>
-                            <th>Pencapaian (Milestone)</th>
-                            <th>Tanggal / Usia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pertama Kali Lahir ke Dunia</td>
-                            <td>08 September 2026</td>
-                        </tr>
-                        <tr>
-                            <td>Senyum Pertama (Sadar)</td>
-                            <td><em>Menyusul...</em></td>
-                        </tr>
-                        <tr>
-                            <td>Mulai Tengkurap Mandiri</td>
-                            <td><em>Menyusul...</em></td>
-                        </tr>
-                        <tr>
-                            <td>Tumbuh Gigi Pertama</td>
-                            <td><em>Menyusul...</em></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- 8. Catatan Milestone (Bisa di-hide admin) -->
+        <div id="sectionMilestone">
+            <button class="accordion-btn" onclick="toggleNormalSection(this)">🎯 Catatan Milestone (Tumbuh Kembang) <span>▼</span></button>
+            <div class="accordion-content">
+                <div class="card">
+                    <table class="milestone-table">
+                        <thead>
+                            <tr>
+                                <th>Pencapaian (Milestone)</th>
+                                <th>Tanggal / Usia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pertama Kali Lahir ke Dunia</td>
+                                <td>08 September 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Senyum Pertama (Sadar)</td>
+                                <td><em>Menyusul...</em></td>
+                            </tr>
+                            <tr>
+                                <td>Mulai Tengkurap Mandiri</td>
+                                <td><em>Menyusul...</em></td>
+                            </tr>
+                            <tr>
+                                <td>Tumbuh Gigi Pertama</td>
+                                <td><em>Menyusul...</em></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- 9. Pengingat Imunisasi Dasar -->
-        <button class="accordion-btn" onclick="toggleNormalSection(this)">💉 Pengingat Imunisasi Dasar <span>▼</span></button>
-        <div class="accordion-content">
-            <div class="card">
-                <table class="immunization-table">
-                    <thead>
-                        <tr>
-                            <th>Usia / Jadwal</th>
-                            <th>Jenis Vaksin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Baru Lahir (0 Bulan)</td>
-                            <td>Hepatitis B (0), BCG, Polio 1</td>
-                        </tr>
-                        <tr>
-                            <td>2 Bulan</td>
-                            <td>DPT-HB-Hib 1, Polio 2</td>
-                        </tr>
-                        <tr>
-                            <td>3 Bulan</td>
-                            <td>DPT-HB-Hib 2, Polio 3</td>
-                        </tr>
-                        <tr>
-                            <td>4 Bulan</td>
-                            <td>DPT-HB-Hib 3, Polio 4, IPV</td>
-                        </tr>
-                        <tr>
-                            <td>9 Bulan</td>
-                            <td>Campak / Rubella</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- 9. Pengingat Imunisasi Dasar (Bisa di-hide admin) -->
+        <div id="sectionImmunization">
+            <button class="accordion-btn" onclick="toggleNormalSection(this)">💉 Pengingat Imunisasi Dasar <span>▼</span></button>
+            <div class="accordion-content">
+                <div class="card">
+                    <table class="immunization-table">
+                        <thead>
+                            <tr>
+                                <th>Usia / Jadwal</th>
+                                <th>Jenis Vaksin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Baru Lahir (0 Bulan)</td>
+                                <td>Hepatitis B (0), BCG, Polio 1</td>
+                            </tr>
+                            <tr>
+                                <td>2 Bulan</td>
+                                <td>DPT-HB-Hib 1, Polio 2</td>
+                            </tr>
+                            <tr>
+                                <td>3 Bulan</td>
+                                <td>DPT-HB-Hib 2, Polio 3</td>
+                            </tr>
+                            <tr>
+                                <td>4 Bulan</td>
+                                <td>DPT-HB-Hib 3, Polio 4, IPV</td>
+                            </tr>
+                            <tr>
+                                <td>9 Bulan</td>
+                                <td>Campak / Rubella</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -805,8 +844,9 @@
             </div>
         </div>
 
-        <div style="text-align: center;">
+        <div style="text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
             <button onclick="window.print()" class="btn-print">🖨️ Cetak / Simpan ke PDF</button>
+            <a href="#" id="shareWaBtn" onclick="shareToWhatsApp(event)" class="btn-wa">💬 Bagikan ke WhatsApp</a>
         </div>
 
     </div>
@@ -819,6 +859,35 @@
     <script>
         let fotoList = [];
         let currentIndex = 0;
+        let isAdminLoggedIn = false;
+
+        // Status Kontrol Privasi & Bagian (Disimpan di localStorage agar tetap diingat)
+        let siteSettings = JSON.parse(localStorage.getItem('aluna_settings')) || {
+            hideBirthDetails: true,
+            hideMilestone: false,
+            hideImmunization: false
+        };
+
+        function applySettings() {
+            // Sensor Tgl/Jam Lahir & Nikah
+            const birthDateElem = document.getElementById('valBirthDate');
+            const birthTimeElem = document.getElementById('valBirthTime');
+            const marriageDateElem = document.getElementById('valMarriageDate');
+
+            if (siteSettings.hideBirthDetails) {
+                birthDateElem.innerText = "**-**-2026";
+                birthTimeElem.innerText = "**:00 WIB";
+                marriageDateElem.innerText = "20 Oktober ****";
+            } else {
+                birthDateElem.innerText = "08 September 2026";
+                birthTimeElem.innerText = "10:00 WIB";
+                marriageDateElem.innerText = "20 Oktober 2021";
+            }
+
+            // Sembunyikan / Tampilkan Milestone & Imunisasi
+            document.getElementById('sectionMilestone').style.display = siteSettings.hideMilestone ? "none" : "block";
+            document.getElementById('sectionImmunization').style.display = siteSettings.hideImmunization ? "none" : "block";
+        }
 
         function loadAutoGallery() {
             const galleryContainer = document.getElementById('autoGallery');
@@ -1011,25 +1080,38 @@
             const now = new Date();
             const diffTime = now - birthDate;
 
-            if (diffTime >= 0) {
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('ageCounter').innerText = `✨ Usia: ${diffDays} Hari, ${diffHours} Jam ✨`;
-            }
-
-            const nextBirthday = new Date('2027-09-08T10:00:00');
-            const timeLeft = nextBirthday - now;
-            if (timeLeft > 0) {
-                const bDays = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                document.getElementById('birthdayCountdown').innerText = `🎂 Menuju Ultah ke-1: ${bDays} Hari lagi 🎂`;
+            if (siteSettings.hideBirthDetails) {
+                document.getElementById('ageCounter').innerText = `✨ Usia: ***** ✨`;
+                document.getElementById('birthdayCountdown').innerText = `🎂 Menuju Ultah ke-1: ******* 🎂`;
             } else {
-                document.getElementById('birthdayCountdown').innerText = `🎂 Selamat Ulang Tahun ke-1 Aluna! 🎂`;
+                if (diffTime >= 0) {
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    document.getElementById('ageCounter').innerText = `✨ Usia: ${diffDays} Hari, ${diffHours} Jam ✨`;
+                }
+
+                const nextBirthday = new Date('2027-09-08T10:00:00');
+                const timeLeft = nextBirthday - now;
+                if (timeLeft > 0) {
+                    const bDays = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    document.getElementById('birthdayCountdown').innerText = `🎂 Menuju Ultah ke-1: ${bDays} Hari lagi 🎂`;
+                } else {
+                    document.getElementById('birthdayCountdown').innerText = `🎂 Selamat Ulang Tahun ke-1 Aluna! 🎂`;
+                }
             }
         }
         setInterval(updateCounters, 1000);
         updateCounters();
 
+        function shareToWhatsApp(e) {
+            e.preventDefault();
+            const text = "🌸 Halo keluarga dan kerabat tercinta! Yuk kunjungi web perjalanan tumbuh kembang putri pertama kami, Aluna Melodi Latifah, sekaligus memberikan doa dan ucapan di buku tamu:\n\n" + window.location.href;
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+            window.open(waUrl, '_blank');
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            applySettings();
             loadLogs();
             loadAutoGallery();
         });
@@ -1116,7 +1198,7 @@
         }
     </script>
 
-    <!-- FIREBASE FIRESTORE SDK & SCRIPT BUKU TAMU + ENTER KEY SUPPORT -->
+    <!-- FIREBASE FIRESTORE SDK, GOOGLE SHEETS SYNC, & PANEL KONTROL ADMIN -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -1135,6 +1217,67 @@
         const db = getFirestore(app);
 
         let modalCallback = null;
+        let isAdminLoggedIn = false;
+
+        // Fungsi Panel Kontrol / Mode Admin
+        window.toggleAdminMode = async function() {
+            if (isAdminLoggedIn) {
+                let choice = await showAdminMenu();
+                if (choice === "logout") {
+                    isAdminLoggedIn = false;
+                    document.getElementById('adminBtn').innerText = "🔐 Admin";
+                    document.getElementById('adminBtn').classList.remove('admin-active-badge');
+                    await showCustomModal("Mode Admin", "Anda telah keluar dari Mode Admin.", false, "OK", "");
+                    loadFirebaseWishes();
+                }
+            } else {
+                let password = await showCustomModal("🔐 Login Admin", "Masukkan password admin:", true, "Masuk", "Batal");
+                if (password === "aluna2026") {
+                    isAdminLoggedIn = true;
+                    document.getElementById('adminBtn').innerText = "✅ Admin Aktif";
+                    document.getElementById('adminBtn').classList.add('admin-active-badge');
+                    await showCustomModal("Berhasil", "Mode Admin aktif! Klik tombol Admin lagi kapan saja untuk mengatur sensor & tampilan.", false, "OK", "");
+                    loadFirebaseWishes();
+                    setTimeout(toggleAdminMode, 300);
+                } else if (password !== false) {
+                    await showCustomModal("Gagal", "Password admin salah!", false, "OK", "");
+                }
+            }
+        };
+
+        // Menu Pilihan Kontrol Admin
+        async function showAdminMenu() {
+            let statusSensor = siteSettings.hideBirthDetails ? "Matikan Sensor (Tampilkan Tanggal, Usia & Hitung Mundur)" : "Aktifkan Sensor (Sembunyikan Tanggal, Usia & Hitung Mundur)";
+            let statusMilestone = siteSettings.hideMilestone ? "Tampilkan Bagian Milestone" : "Sembunyikan Bagian Milestone";
+            let statusImmunization = siteSettings.hideImmunization ? "Tampilkan Bagian Imunisasi" : "Sembunyikan Bagian Imunisasi";
+
+            let action = await showCustomModal(
+                "⚙️ Panel Kontrol Admin", 
+                "Pilih pengaturan yang ingin diubah:\n\n1. " + statusSensor + "\n2. " + statusMilestone + "\n3. " + statusImmunization + "\n\nKetik angka [1], [2], [3], atau ketik 'logout' untuk keluar:", 
+                true, "Terapkan", "Keluar Admin"
+            );
+
+            if (action === "1") {
+                siteSettings.hideBirthDetails = !siteSettings.hideBirthDetails;
+                localStorage.setItem('aluna_settings', JSON.stringify(siteSettings));
+                applySettings();
+                updateCounters();
+                await showCustomModal("Berhasil", "Pengaturan sensor berhasil diperbarui!", false, "OK", "");
+            } else if (action === "2") {
+                siteSettings.hideMilestone = !siteSettings.hideMilestone;
+                localStorage.setItem('aluna_settings', JSON.stringify(siteSettings));
+                applySettings();
+                await showCustomModal("Berhasil", "Pengaturan bagian Milestone diperbarui!", false, "OK", "");
+            } else if (action === "3") {
+                siteSettings.hideImmunization = !siteSettings.hideImmunization;
+                localStorage.setItem('aluna_settings', JSON.stringify(siteSettings));
+                applySettings();
+                await showCustomModal("Berhasil", "Pengaturan bagian Imunisasi diperbarui!", false, "OK", "");
+            } else if (action === "logout" || action === false) {
+                return "logout";
+            }
+            return "stay";
+        }
 
         // Fungsi Menampilkan Custom Modal dengan Dukungan Enter
         function showCustomModal(title, message, showInput, confirmText = "OK", cancelText = "Batal") {
@@ -1166,7 +1309,6 @@
                 const modalOverlay = document.getElementById('customModal');
                 modalOverlay.style.display = "flex";
 
-                // Listener tombol Enter pada input password
                 const handleKeypress = function(e) {
                     if (e.key === "Enter") {
                         e.preventDefault();
@@ -1199,7 +1341,7 @@
             if (modalCallback) modalCallback(confirmed, val);
         };
 
-        // Kirim Ucapan ke Firestore
+        // Kirim Ucapan ke Firestore & Google Sheets Sekaligus
         window.sendFirebaseWishes = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -1209,12 +1351,26 @@
             btn.innerText = "Mengirim...";
             btn.disabled = true;
 
+            const guestName = nameInput.value;
+            const guestMessage = messageInput.value;
+
             try {
+                // 1. Simpan ke Firebase Firestore (untuk tampilan real-time di web)
                 await addDoc(collection(db, "buku_tamu"), {
-                    nama: nameInput.value,
-                    ucapan: messageInput.value,
+                    nama: guestName,
+                    ucapan: guestMessage,
                     waktu: serverTimestamp()
                 });
+
+                // 2. Kirim juga otomatis ke Google Sheets
+                const googleSheetUrl = "https://script.google.com/macros/s/AKfycbzsjsWXjwc4odJzk9hTaE5bMK3m9iECsM_GsPeFjwGgHdpi1hJwUuZzhGZZfozB9pt2sw/exec";
+                
+                fetch(googleSheetUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nama: guestName, ucapan: guestMessage })
+                }).catch(err => console.log("Sheet sync error:", err));
 
                 nameInput.value = '';
                 messageInput.value = '';
@@ -1247,11 +1403,16 @@
                     let docId = documentSnapshot.id;
                     let formattedDate = row.waktu ? new Date(row.waktu.toDate()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}) : 'Baru saja';
                     
+                    let deleteBtnHtml = "";
+                    if (isAdminLoggedIn) {
+                        deleteBtnHtml = `<button onclick="deleteWish('${docId}')" style="float: right; background: #ff4d4d; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">🗑️ Hapus</button>`;
+                    }
+
                     html += `
                         <div class="log-entry" style="position: relative;">
                             <div class="log-date">
                                 ${escapeHtml(row.nama)} <span style="font-weight:normal; opacity:0.7; font-size:0.75rem;">(${formattedDate})</span>
-                                <button onclick="deleteWish('${docId}')" style="float: right; background: #ff4d4d; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">🗑️ Hapus</button>
+                                ${deleteBtnHtml}
                             </div>
                             <p style="margin: 5px 0 0;">${escapeHtml(row.ucapan)}</p>
                         </div>
@@ -1264,13 +1425,11 @@
             }
         }
 
-        // Fungsi Hapus Ucapan dengan Password dan Enter Support
+        // Fungsi Hapus Ucapan Khusus Admin
         window.deleteWish = async function(docId) {
-            let password = await showCustomModal("🔐 Autentikasi Admin", "Masukkan password admin untuk menghapus ucapan ini:", true, "Lanjutkan", "Batal");
+            let confirmDelete = await showCustomModal("Konfirmasi", "Yakin ingin menghapus ucapan ini dari buku tamu?", false, "Ya, Hapus", "Batal");
             
-            if (password === false) return;
-
-            if (password === "aluna2026") {
+            if (confirmDelete) {
                 try {
                     await deleteDoc(doc(db, "buku_tamu", docId));
                     await showCustomModal("Berhasil", "Ucapan berhasil dihapus dari sistem.", false, "OK", "");
@@ -1279,8 +1438,6 @@
                     console.error("Gagal menghapus: ", error);
                     await showCustomModal("Error", "Gagal menghapus ucapan dari server.", false, "OK", "");
                 }
-            } else {
-                await showCustomModal("Akses Ditolak", "Password salah! Anda tidak memiliki izin admin.", false, "OK", "");
             }
         };
 
